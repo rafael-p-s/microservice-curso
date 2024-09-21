@@ -2,10 +2,10 @@
 
 public class Repository<T> : IRepository<T> where T : class
 {
-    protected ApplicationDbContext _context;
+    protected UserApiDbContext _context;
     private bool _disposed;
 
-    public Repository(ApplicationDbContext dbContext)
+    public Repository(UserApiDbContext dbContext)
     {
         _context = dbContext;
     }

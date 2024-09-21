@@ -2,7 +2,7 @@
 
 public class UserRepository : Repository<User>, IUserRepository
 {
-    public UserRepository(ApplicationDbContext applicationDbContext)
+    public UserRepository(UserApiDbContext applicationDbContext)
         : base(applicationDbContext)
     {
 

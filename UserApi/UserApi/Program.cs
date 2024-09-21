@@ -4,6 +4,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddDbContext<UserApiDbContext>(options =>
+        options.UseSqlite(builder.Configuration.GetConnectionString("UserDatabase")));
 builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddTransient<IUserRepository, UserRepository>();
