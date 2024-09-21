@@ -1,0 +1,16 @@
+﻿@model Shared.ViewModels.WeatherModel
+@{
+    ViewData["Title"] = "Weather Details";
+}
+
+<h1>Weather</h1>
+<br />
+<div>
+    <h3>Weather Details</h3>
+    <br />
+    <p>City: @Model.City</p>
+    <p>Temperature: @Model.Temperature °C</p>
+    <p>Description: @Model.Description</p>
+    <br />
+    <a href="@Url.Action("Index","Weather")" class="btn btn-primary">Back to List</a>
+</div>

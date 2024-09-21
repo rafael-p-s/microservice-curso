@@ -1,0 +1,19 @@
+﻿@model Shared.ViewModels.UserModel
+@{
+    ViewData["Title"] = "User Details";
+}
+
+<h1>User Details for @Model.Name</h1>
+<br />
+<div>
+    <p>ID: @Model.Id</p>
+    <p>Name: @Model.Name</p>
+    <p>Age: @Model.Age</p>
+    <p>Email: @Model.Email</p>
+    <p>Address: @Model.Address</p>
+    <p>City: @Model.City</p>
+    <p>Country: @Model.Country</p>
+    <p>Postal Code: @Model.PostalCode</p>
+    <br />
+    <a href="@Url.Action("Index", "Users")" class="btn btn-primary">Back to List</a>
+</div>

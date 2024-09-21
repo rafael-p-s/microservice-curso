@@ -1,0 +1,19 @@
+﻿@model List<Shared.ViewModels.WeatherModel>
+@{
+    ViewData["Title"] = "Weather page";
+}
+
+<h1>Weather</h1>
+<br />
+<div>
+    <h2>Available Cities</h2>
+    <br />
+    <ul>
+        @foreach (var weather in Model)
+        {
+            <li>
+                <a href="@Url.Action("Details", new { city = weather.City })">@weather.City</a>
+            </li>
+        }
+    </ul>
+</div>
