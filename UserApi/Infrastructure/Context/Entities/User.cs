@@ -11,7 +11,32 @@ public class User
     public string Country { get; set; }
     public string PostalCode { get; set; }
 
-    public static UserDto? MapEntity(User? user)
+    public User() { }
+
+    public User(UserDto userDto)
+    {
+        Id = userDto.Id;
+        Name = userDto.Name;
+        Age = userDto.Age;
+        Email = userDto.Email;
+        Address = userDto.Address;
+        City = userDto.City;
+        Country = userDto.Country;
+        PostalCode = userDto.PostalCode;
+    }
+
+    public User(UserBaseDto userBaseDto)
+    {
+        Name = userBaseDto.Name;
+        Age = userBaseDto.Age;
+        Email = userBaseDto.Email;
+        Address = userBaseDto.Address;
+        City = userBaseDto.City;
+        Country = userBaseDto.Country;
+        PostalCode = userBaseDto.PostalCode;
+    }
+
+    public static UserDto? MapDto(User? user)
     {
         if (user is null) return null;
 
@@ -28,11 +53,11 @@ public class User
         };
     }
 
-    public static List<UserDto> MapEntityList(List<User> users)
+    public static List<UserDto> MapDtoList(List<User> users)
     {
         if (!users.Any())
             return [];
 
-        return users.Select(MapEntity).ToList()!;
+        return users.Select(MapDto).ToList()!;
     }
 }

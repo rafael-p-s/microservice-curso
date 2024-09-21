@@ -5,3 +5,4 @@ global using Infrastructure.Interfaces;
 global using Infrastructure.Repositories;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.EntityFrameworkCore;
+global using Shared.Dtos;

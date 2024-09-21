@@ -22,25 +22,48 @@ public class Repository<T> : IRepository<T> where T : class
 
     public async Task<T?> Add(T entity)
     {
-        await _context.Set<T>().AddAsync(entity);
-        await _context.SaveChangesAsync();
+        try
+        {
+            await _context.Set<T>().AddAsync(entity);
+            await _context.SaveChangesAsync();
 
-        return entity;
+            return entity;
+
+        }
+        catch (Exception)
+        {
+            return null;
+        }
     }
 
-    public async Task<T> Update(T entity)
+    public async Task<T?> Update(T entity)
     {
-        _context.Set<T>().Update(entity);
-        await _context.SaveChangesAsync();
+        try
+        {
+            _context.Set<T>().Update(entity);
+            await _context.SaveChangesAsync();
 
-        return entity;
+            return entity;
+
+        }
+        catch (Exception)
+        {
+            return null;
+        }
     }
 
     public async Task<bool> Delete(T entity)
     {
-        _context.Set<T>().Remove(entity);
+        try
+        {
+            _context.Set<T>().Remove(entity);
 
-        return Convert.ToBoolean(await _context.SaveChangesAsync());
+            return Convert.ToBoolean(await _context.SaveChangesAsync());
+        }
+        catch (Exception)
+        {
+            return false;
+        }
 
     }
 
