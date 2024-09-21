@@ -17,4 +17,12 @@ public class HomeController : Controller
 
         return View("Privacy");
     }
+
+    [HttpGet]
+    public ActionResult Error()
+    {
+        ViewData["Title"] = "Error";
+
+        return View("Error");
+    }
 }
