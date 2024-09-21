@@ -28,60 +28,55 @@ public class UsersController : Controller
     [HttpGet]
     public ActionResult Create()
     {
-        return View();
+        return View("Create");
     }
 
     [HttpPost]
-    [ValidateAntiForgeryToken]
-    public ActionResult Create(IFormCollection collection)
+    public async Task<IActionResult> CreateUser(UserModel user)
     {
-        try
-        {
-            return RedirectToAction(nameof(Index));
-        }
-        catch
-        {
-            return View();
-        }
+        var result = await _userService.CreateUser(user);
+
+        if (result is null)
+            return View("../Home/Error");
+
+        return RedirectToAction(nameof(Index));
     }
 
     [HttpGet("Edit/{id}")]
-    public ActionResult Edit(int id)
+    public async Task<IActionResult> Edit(int id)
     {
-        return View();
+        var result = await _userService.GetUserById(id);
+
+        return View("Edit", result);
     }
 
     [HttpPost]
-    [ValidateAntiForgeryToken]
-    public ActionResult Edit(int id, IFormCollection collection)
+    public async Task<IActionResult> EditUser(UserModel user)
     {
-        try
-        {
-            return RedirectToAction(nameof(Index));
-        }
-        catch
-        {
-            return View();
-        }
+        var result = await _userService.UpdateUser(user);
+
+        if (result is null)
+            return View("../Home/Error");
+
+        return RedirectToAction(nameof(Index));
     }
 
-    [HttpGet("Delete/{id}")]
-    public ActionResult Delete(int id)
+    [HttpGet("Delete/{id}/{name}")]
+    public async Task<IActionResult> Delete(int id, string name)
     {
-        return View();
+        var result = new UserBaseModel() { Id = id, Name = name };
+
+        return View("Delete", result);
     }
 
     [HttpPost]
-    [ValidateAntiForgeryToken]
-    public ActionResult Delete(int id, IFormCollection collection)
+    public async Task<IActionResult> DeleteUser(int id)
     {
-        try
-        {
-            return RedirectToAction(nameof(Index));
-        }
-        catch
-        {
-            return View();
-        }
+        var result = await _userService.DeleteUser(id);
+
+        if (!result)
+            return View("../Home/Error");
+
+        return RedirectToAction(nameof(Index));
     }
 }

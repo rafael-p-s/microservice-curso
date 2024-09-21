@@ -19,8 +19,23 @@ public class UserService : IUserService
         return [];
     }
 
-    public async Task<UserModel> GetUserById(int id)
+    public async Task<UserModel?> GetUserById(int id)
     {
         return await _clientService.GetUserById(id);
+    }
+
+    public async Task<UserModel?> CreateUser(UserModel model)
+    {
+        return await _clientService.CreateUser(model);
+    }
+
+    public async Task<UserModel?> UpdateUser(UserModel model)
+    {
+        return await _clientService.UpdateUser(model);
+    }
+
+    public async Task<bool> DeleteUser(int id)
+    {
+        return await _clientService.DeleteUser(id);
     }
 }

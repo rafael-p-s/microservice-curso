@@ -1,0 +1,11 @@
+﻿@model Shared.ViewModels.UserBaseModel
+
+<h2>Delete User</h2>
+<br />
+<p>Are you sure you want to delete the user <strong>@Model.Name</strong>?</p>
+<br />
+<form method="post" action="@Url.Action("DeleteUser")">
+    <input type="hidden" name="Id" value="@Model.Id"/>
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a href="@Url.Action("Index")" class="btn btn-secondary">Cancel</a>
+</form>

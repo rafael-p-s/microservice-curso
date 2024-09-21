@@ -17,9 +17,24 @@ public class ClientService : IClientService
         return UsersFaker.UsersList();
     }
 
-    public async Task<UserModel> GetUserById(int id)
+    public async Task<UserModel?> GetUserById(int id)
     {
-        return UsersFaker.UsersList().FirstOrDefault(x => x.Id == id) ?? new();
+        return UsersFaker.UsersList().FirstOrDefault(x => x.Id == id);
+    }
+
+    public async Task<UserModel?> CreateUser(UserModel model)
+    {
+        return new();
+    }
+
+    public async Task<UserModel?> UpdateUser(UserModel model)
+    {
+        return null;
+    }
+
+    public async Task<bool> DeleteUser(int id)
+    {
+        return true;
     }
 
     public async Task<List<WeatherModel>> GetAllWeather()
