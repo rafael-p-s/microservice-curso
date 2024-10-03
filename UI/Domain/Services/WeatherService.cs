@@ -11,11 +11,11 @@ public class WeatherService : IWeatherService
 
     public async Task<List<WeatherModel>> GetAll()
     {
-        return await _clientService.GetAllWeather();
+        return WeatherFaker.WeatherList();
     }
 
-    public async Task<WeatherModel> GetByCity(string city)
+    public async Task<WeatherModel?> GetByCity(string city)
     {
-        return await _clientService.GetWeatherByCity(city);
+        return WeatherFaker.WeatherList().FirstOrDefault(c => c.City == city);
     }
 }

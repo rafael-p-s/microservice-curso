@@ -5,18 +5,20 @@
 public class UserController : ControllerBase
 {
     private readonly IUserService _userService;
+    private readonly INotifierService _notifierService;
 
-    public UserController(IUserService userService)
+    public UserController(IUserService userService, ILogger<UserController> logger, INotifierService notifierService)
     {
         _userService = userService;
+        _notifierService = notifierService;
     }
 
     [HttpGet("GetAll")]
-    public async Task<IActionResult> Get()
+    public async Task<IActionResult> GetAll()
     {
         var result = await _userService.GetAll();
 
-        return Ok(result);
+        return CustomResponse(result);
     }
 
     [HttpGet("Details/{id}")]
@@ -24,7 +26,7 @@ public class UserController : ControllerBase
     {
         var result = await _userService.GetUserById(id);
 
-        return Ok(result);
+        return CustomResponse(result);
     }
 
     [HttpPost("Create")]
@@ -32,7 +34,7 @@ public class UserController : ControllerBase
     {
         var result = await _userService.CreateUser(userDto);
 
-        return CreatedAtAction(nameof(Details), new { id = result.Id }, result);
+        return CustomResponse(result);
     }
 
     [HttpPut("Update")]
@@ -40,12 +42,7 @@ public class UserController : ControllerBase
     {
         var result = await _userService.UpdateUser(userDto);
 
-        if (result == null)
-        {
-            return NotFound();
-        }
-
-        return Ok(result);
+        return CustomResponse(result);
     }
 
     [HttpDelete("Delete/{id}")]
@@ -53,11 +50,14 @@ public class UserController : ControllerBase
     {
         var result = await _userService.DeleteUser(id);
 
-        if (!result)
-        {
-            return NotFound();
-        }
+        return CustomResponse(result);
+    }
 
-        return NoContent();
+    private IActionResult CustomResponse(object? content)
+    {
+        if (_notifierService.HasMessages())
+            return BadRequest(new { Status = false, Content = _notifierService.GetLog() });
+
+        return Ok(new { Status = true, Content = content });
     }
 }

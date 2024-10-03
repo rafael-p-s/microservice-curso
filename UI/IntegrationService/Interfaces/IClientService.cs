@@ -2,11 +2,8 @@
 
 public interface IClientService
 {
-    Task<List<UserModel>> GetAllUsers();
-    Task<UserModel?> GetUserById(int id);
-    Task<UserModel?> CreateUser(UserModel model);
-    Task<UserModel?> UpdateUser(UserModel model);
-    Task<bool> DeleteUser(int id);
-    Task<List<WeatherModel>> GetAllWeather();
-    Task<WeatherModel> GetWeatherByCity(string city);
+    Task<ResponseModel?> GetAsync(string requestUri);
+    Task<ResponseModel?> PostAsync<T>(string requestUri, T content);
+    Task<ResponseModel?> PutAsync<T>(string requestUri, T content);
+    Task<ResponseModel?> DeleteAsync(string requestUri);
 }

@@ -7,6 +7,7 @@ builder.Services.AddHttpClient();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddScoped<IWeatherService, WeatherService>();
+builder.Services.AddScoped<INotifierService, NotifierService>();
 
 var app = builder.Build();
 

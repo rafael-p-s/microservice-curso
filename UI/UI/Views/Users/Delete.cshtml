@@ -1,7 +1,15 @@
 ﻿@model Shared.ViewModels.UserBaseModel
-
+@{
+    var errorLogs = ViewData["ErrorLogs"] as string;
+}
 <h2>Delete User</h2>
 <br />
+@if (!string.IsNullOrEmpty(errorLogs))
+{
+    <div class="alert alert-danger" role="alert">
+        @errorLogs
+    </div>
+}
 <p>Are you sure you want to delete the user <strong>@Model.Name</strong>?</p>
 <br />
 <form method="post" action="@Url.Action("DeleteUser")">

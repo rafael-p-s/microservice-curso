@@ -1,8 +1,15 @@
 ﻿@model Shared.ViewModels.UserModel
 @{
     ViewData["Title"] = "User Details";
+    var errorLogs = ViewData["ErrorLogs"] as string;
 }
-
+@if (!string.IsNullOrEmpty(errorLogs))
+{
+    <div class="alert alert-danger" role="alert">
+        @errorLogs
+    </div>
+}
+   
 <h2>User Details for @Model.Name</h2>
 <br />
 <div>

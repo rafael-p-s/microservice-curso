@@ -2,48 +2,105 @@
 
 public class ClientService : IClientService
 {
-    public async Task<List<UserModel>> GetAllUsers()
-    {
-        //using (var client = new HttpClient())
-        //{
-        //    var response = await client.GetAsync("https://yourapi.com/api/ControllerName/ActionMethodName");
-        //    if (response.IsSuccessStatusCode)
-        //    {
-        //        var data = await response.Content.ReadAsStringAsync();
-        //        // Process the data
-        //    }
-        //}
+    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly INotifierService _notifierService;
 
-        return UsersFaker.UsersList();
+    public ClientService(IHttpClientFactory httpClientFactory, INotifierService notifierService)
+    {
+        _httpClientFactory = httpClientFactory;
+        _notifierService = notifierService;
     }
 
-    public async Task<UserModel?> GetUserById(int id)
+    public async Task<ResponseModel?> GetAsync(string requestUri)
     {
-        return UsersFaker.UsersList().FirstOrDefault(x => x.Id == id);
+        var client = _httpClientFactory.CreateClient();
+        ResponseModel? result;
+
+        try
+        {
+            var httpResponseMessage = await client.GetAsync(requestUri);
+
+            if (httpResponseMessage.StatusCode is not HttpStatusCode.OK and not HttpStatusCode.BadRequest)
+                return null;
+
+            result = await httpResponseMessage.DeserializeContent<ResponseModel>();
+        }
+        catch (Exception)
+        {
+            _notifierService.AddLog("Error to connect with backend app");
+            return null;
+        }
+
+        return result;
+    }
+    public async Task<ResponseModel?> PostAsync<T>(string requestUri, T content)
+    {
+        var client = _httpClientFactory.CreateClient();
+        StringContent jsonContent = JsonExtensions.SerializeContent(content);
+        ResponseModel? result;
+
+        try
+        {
+            var httpResponseMessage = await client.PostAsync(requestUri, jsonContent);
+
+            if (httpResponseMessage.StatusCode is not HttpStatusCode.OK and not HttpStatusCode.BadRequest)
+                return null;
+
+            result = await httpResponseMessage.DeserializeContent<ResponseModel>();
+
+        }
+        catch (Exception)
+        {
+            _notifierService.AddLog("Error to connect with backend app");
+            return null;
+        }
+
+        return result;
+    }
+    public async Task<ResponseModel?> PutAsync<T>(string requestUri, T content)
+    {
+        var client = _httpClientFactory.CreateClient();
+        StringContent jsonContent = JsonExtensions.SerializeContent(content);
+        ResponseModel? result;
+
+        try
+        {
+            var httpResponseMessage = await client.PutAsync(requestUri, jsonContent);
+
+            if (httpResponseMessage.StatusCode is not HttpStatusCode.OK and not HttpStatusCode.BadRequest)
+                return null;
+
+            result = await httpResponseMessage.DeserializeContent<ResponseModel>();
+        }
+        catch (Exception)
+        {
+            _notifierService.AddLog("Error to connect with backend app");
+            return null;
+        }
+
+        return result;
     }
 
-    public async Task<UserModel?> CreateUser(UserModel model)
+    public async Task<ResponseModel?> DeleteAsync(string requestUri)
     {
-        return new();
-    }
+        var client = _httpClientFactory.CreateClient();
+        ResponseModel? result;
 
-    public async Task<UserModel?> UpdateUser(UserModel model)
-    {
-        return null;
-    }
+        try
+        {
+            var httpResponseMessage = await client.DeleteAsync(requestUri);
 
-    public async Task<bool> DeleteUser(int id)
-    {
-        return true;
-    }
+            if (httpResponseMessage.StatusCode is not HttpStatusCode.OK and not HttpStatusCode.BadRequest)
+                return null;
 
-    public async Task<List<WeatherModel>> GetAllWeather()
-    {
-        return WeatherFaker.WeatherList();
-    }
+            result = await httpResponseMessage.DeserializeContent<ResponseModel>();
+        }
+        catch (Exception)
+        {
+            _notifierService.AddLog("Error to connect with backend app");
+            return null;
+        }
 
-    public async Task<WeatherModel> GetWeatherByCity(string city)
-    {
-        return WeatherFaker.WeatherList().FirstOrDefault(x => x.City == city) ?? new();
+        return result;
     }
 }

@@ -1,11 +1,18 @@
 ﻿@model List<Shared.ViewModels.UserModel>
 @{
     ViewData["Title"] = "Users page";
+    var errorLogs = ViewData["ErrorLogs"] as string;
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome to users page</h1>
 </div>
+@if (!string.IsNullOrEmpty(errorLogs))
+{
+    <div class="alert alert-danger" role="alert">
+        @errorLogs
+    </div>
+}
 <div class="d-flex justify-content-end mb-3">
     <a href="@Url.Action("Create", "Users")" class="btn btn-primary">Create New User</a>
 </div>

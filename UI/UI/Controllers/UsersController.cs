@@ -3,16 +3,24 @@
 public class UsersController : Controller
 {
     private readonly IUserService _userService;
+    private readonly INotifierService _notifierService;
 
-    public UsersController(IUserService userService)
+    public UsersController(IUserService userService, INotifierService notifierService)
     {
         _userService = userService;
+        _notifierService = notifierService;
     }
 
     [HttpGet]
     public async Task<IActionResult> Index()
     {
         var result = await _userService.GetAll();
+
+        if (_notifierService.HasMessages())
+        {
+            var logs = _notifierService.GetLog();
+            ViewData["ErrorLogs"] = logs;
+        }
 
         return View("Index", result);
     }
@@ -21,6 +29,12 @@ public class UsersController : Controller
     public async Task<IActionResult> Details(int id)
     {
         var result = await _userService.GetUserById(id);
+
+        if (_notifierService.HasMessages())
+        {
+            var logs = _notifierService.GetLog();
+            ViewData["ErrorLogs"] = logs;
+        }
 
         return View("Details", result);
     }
@@ -36,8 +50,11 @@ public class UsersController : Controller
     {
         var result = await _userService.CreateUser(user);
 
-        if (result is null)
-            return View("../Home/Error");
+        if (_notifierService.HasMessages())
+        {
+            var logs = _notifierService.GetLog();
+            ViewData["ErrorLogs"] = logs;
+        }
 
         return RedirectToAction(nameof(Index));
     }
@@ -47,6 +64,12 @@ public class UsersController : Controller
     {
         var result = await _userService.GetUserById(id);
 
+        if (_notifierService.HasMessages())
+        {
+            var logs = _notifierService.GetLog();
+            ViewData["ErrorLogs"] = logs;
+        }
+
         return View("Edit", result);
     }
 
@@ -55,16 +78,25 @@ public class UsersController : Controller
     {
         var result = await _userService.UpdateUser(user);
 
-        if (result is null)
-            return View("../Home/Error");
+        if (_notifierService.HasMessages())
+        {
+            var logs = _notifierService.GetLog();
+            ViewData["ErrorLogs"] = logs;
+        }
 
         return RedirectToAction(nameof(Index));
     }
 
     [HttpGet("Delete/{id}/{name}")]
-    public async Task<IActionResult> Delete(int id, string name)
+    public IActionResult Delete(int id, string name)
     {
         var result = new UserBaseModel() { Id = id, Name = name };
+
+        if (_notifierService.HasMessages())
+        {
+            var logs = _notifierService.GetLog();
+            ViewData["ErrorLogs"] = logs;
+        }
 
         return View("Delete", result);
     }
@@ -74,8 +106,11 @@ public class UsersController : Controller
     {
         var result = await _userService.DeleteUser(id);
 
-        if (!result)
-            return View("../Home/Error");
+        if (_notifierService.HasMessages())
+        {
+            var logs = _notifierService.GetLog();
+            ViewData["ErrorLogs"] = logs;
+        }
 
         return RedirectToAction(nameof(Index));
     }

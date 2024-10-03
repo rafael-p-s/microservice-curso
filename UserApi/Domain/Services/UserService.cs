@@ -3,10 +3,12 @@
 public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
+    private readonly INotifierService _notifierService;
 
-    public UserService(IUserRepository userRepository)
+    public UserService(IUserRepository userRepository, INotifierService notifierService)
     {
         _userRepository = userRepository;
+        _notifierService = notifierService;
     }
 
     public async Task<List<UserDto>> GetAll()
@@ -20,6 +22,12 @@ public class UserService : IUserService
     {
         var result = await _userRepository.GetById(id);
 
+        if (result is null)
+        {
+            _notifierService.AddLog("User not found in database.");
+            return null;
+        }
+
         return User.MapDto(result);
     }
 
@@ -28,7 +36,10 @@ public class UserService : IUserService
         var result = await _userRepository.Add(new(userBaseDto));
 
         if (result is null)
+        {
+            _notifierService.AddLog("User cannot be created in database.");
             return null;
+        }
 
         return User.MapDto(result);
     }
@@ -38,7 +49,10 @@ public class UserService : IUserService
         var result = await _userRepository.Update(new(userDto));
 
         if (result is null)
+        {
+            _notifierService.AddLog("User cannot be updated in database.");
             return null;
+        }
 
         return User.MapDto(result);
     }
@@ -48,8 +62,19 @@ public class UserService : IUserService
         var getUser = await _userRepository.GetById(id);
 
         if (getUser is null)
+        {
+            _notifierService.AddLog("User cannot be found in database.");
             return false;
+        }
 
-        return await _userRepository.Delete(getUser);
+        var result = await _userRepository.Delete(getUser);
+
+        if (!result)
+        {
+            _notifierService.AddLog("User cannot be deleted from database.");
+            return false;
+        }
+
+        return true;
     }
 }

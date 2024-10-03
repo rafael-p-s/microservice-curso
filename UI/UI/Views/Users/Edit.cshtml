@@ -1,7 +1,15 @@
 ﻿@model Shared.ViewModels.UserModel
-
+@{
+    var errorLogs = ViewData["ErrorLogs"] as string;
+}
 <h2>Edit User</h2>
 <br />
+@if (!string.IsNullOrEmpty(errorLogs))
+{
+    <div class="alert alert-danger" role="alert">
+        @errorLogs
+    </div>
+}
 <form method="post" action="@Url.Action("EditUser")">
     <input type="hidden" name="Id" value="@Model.Id" />
     <div class="form-group">
