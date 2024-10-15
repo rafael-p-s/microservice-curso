@@ -9,4 +9,6 @@ public class UserBaseDto
     public string City { get; set; }
     public string Country { get; set; }
     public string PostalCode { get; set; }
+    public bool IsSysAdmin { get; set; }
+    public List<UserRoleDto>? UserRoles { get; set; }
 }

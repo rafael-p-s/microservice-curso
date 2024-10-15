@@ -10,6 +10,9 @@ public class User
     public string City { get; set; }
     public string Country { get; set; }
     public string PostalCode { get; set; }
+    public string ApiKey { get; set; }
+    public bool IsSysAdmin { get; set; } = false;
+    public List<UserRole>? UserRoles { get; set; }
 
     public User() { }
 
@@ -23,6 +26,9 @@ public class User
         City = userDto.City;
         Country = userDto.Country;
         PostalCode = userDto.PostalCode;
+        ApiKey = userDto.ApiKey;
+        IsSysAdmin = userDto.IsSysAdmin;
+        UserRoles = UserRole.MapList(userDto.UserRoles);
     }
 
     public User(UserBaseDto userBaseDto)
@@ -34,6 +40,9 @@ public class User
         City = userBaseDto.City;
         Country = userBaseDto.Country;
         PostalCode = userBaseDto.PostalCode;
+        ApiKey = Guid.NewGuid().ToString("N")[..32];
+        IsSysAdmin = userBaseDto.IsSysAdmin;
+        UserRoles = UserRole.MapList(userBaseDto.UserRoles);
     }
 
     public static UserDto? MapDto(User? user)
@@ -49,15 +58,18 @@ public class User
             Address = user.Address,
             City = user.City,
             Country = user.Country,
-            PostalCode = user.PostalCode
+            PostalCode = user.PostalCode,
+            ApiKey = user.ApiKey,
+            IsSysAdmin = user.IsSysAdmin,
+            UserRoles = UserRole.MapDtoList(user.UserRoles)
         };
     }
 
-    public static List<UserDto> MapDtoList(List<User> users)
+    public static List<UserDto> MapDtoList(List<User>? users)
     {
-        if (!users.Any())
+        if (!users?.Any() ?? true)
             return [];
 
-        return users.Select(MapDto).ToList()!;
+        return users!.Select(MapDto).ToList()!;
     }
 }

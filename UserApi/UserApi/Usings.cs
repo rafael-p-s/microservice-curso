@@ -1,10 +1,15 @@
 ﻿global using Domain.Interfaces;
 global using Domain.Services;
 global using Infrastructure.Context;
+global using Infrastructure.Context.Entities;
 global using Infrastructure.Interfaces;
 global using Infrastructure.Repositories;
+global using Microsoft.AspNetCore.Authorization;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.EntityFrameworkCore;
+global using Microsoft.OpenApi.Models;
 global using Shared.Dtos;
 global using Shared.Interfaces;
 global using Shared.Services;
+global using System.Security.Claims;
+global using UserApi.Configurations;

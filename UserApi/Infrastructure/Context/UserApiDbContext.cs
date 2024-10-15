@@ -3,6 +3,7 @@
 public class UserApiDbContext(DbContextOptions<UserApiDbContext> opt) : DbContext(opt)
 {
     public virtual DbSet<User> Users { get; set; }
+    public virtual DbSet<User> UserRoles { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

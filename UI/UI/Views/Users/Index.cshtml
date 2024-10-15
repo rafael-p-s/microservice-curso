@@ -26,6 +26,7 @@
                 <th>Email</th>
                 <th>Age</th>
                 <th>Details</th>
+                <th>SysAdmin</th>
             </tr>
         </thead>
         <tbody>
@@ -36,6 +37,7 @@
                     <td>@user.Name</td>
                     <td>@user.Email</td>
                     <td>@user.Age</td>
+                    <td>@user.IsSysAdmin</td>
                     <td>
                         <a href="@Url.Action("Details", new { id = user.Id })" class="btn btn-info">Details</a>
                         <a href="@Url.Action("Edit", new { id = user.Id })" class="btn btn-warning">Edit</a>

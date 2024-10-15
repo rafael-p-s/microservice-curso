@@ -54,7 +54,7 @@ public class UserService : IUserService
 
     public async Task<UserModel?> CreateUser(UserModel userModel)
     {
-        var result = await _clientService.PostAsync(CREATE_USER_URL, userModel);
+        var result = await _clientService.PostAsync(CREATE_USER_URL, userModel.ApiKey, userModel);
 
         if (result is null)
             return new();
@@ -71,7 +71,7 @@ public class UserService : IUserService
 
     public async Task<UserModel?> UpdateUser(UserModel userModel)
     {
-        var result = await _clientService.PutAsync(UPDATE_USER_URL, userModel);
+        var result = await _clientService.PutAsync(UPDATE_USER_URL, userModel.ApiKey, userModel);
 
         if (result is null)
             return new();
@@ -86,10 +86,10 @@ public class UserService : IUserService
         return JsonExtensions.DeserializeCustomResponse<UserModel>(result.Content!);
     }
 
-    public async Task<bool> DeleteUser(int id)
+    public async Task<bool> DeleteUser(int id, string apiKey)
     {
         var url = string.Concat(DELETE_USER_BY_ID_URL, id);
-        var result = await _clientService.DeleteAsync(url);
+        var result = await _clientService.DeleteAsync(url, apiKey);
 
         if (result is null)
             return new();

@@ -14,6 +14,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("GetAll")]
+    [AllowAnonymous]
     public async Task<IActionResult> GetAll()
     {
         var result = await _userService.GetAll();
@@ -30,6 +31,8 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("Create")]
+    [Authorize(Roles = $"ADMIN, Create")]
+    [AllowAnonymous]
     public async Task<IActionResult> Create(UserBaseDto userDto)
     {
         var result = await _userService.CreateUser(userDto);
@@ -38,6 +41,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPut("Update")]
+    [Authorize(Roles = $"ADMIN, Update")]
     public async Task<IActionResult> Update(UserDto userDto)
     {
         var result = await _userService.UpdateUser(userDto);
@@ -46,6 +50,7 @@ public class UserController : ControllerBase
     }
 
     [HttpDelete("Delete/{id}")]
+    [Authorize(Roles = $"ADMIN, Delete/{{id}}")]
     public async Task<IActionResult> Delete(int id)
     {
         var result = await _userService.DeleteUser(id);

@@ -11,6 +11,16 @@ public class UserService : IUserService
         _notifierService = notifierService;
     }
 
+    public async Task<User?> GetUserRolesAsync(string apiKey)
+    {
+        var result = await _userRepository.GetUserByApiKeyAsync(apiKey);
+
+        if (result is null)
+            return null;
+
+        return result;
+    }
+
     public async Task<List<UserDto>> GetAll()
     {
         var result = await _userRepository.GetAll();

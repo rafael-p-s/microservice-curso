@@ -23,5 +23,15 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(t => t.Country).HasColumnName("COUNTRY").IsRequired();
 
         builder.Property(t => t.PostalCode).HasColumnName("POSTAL_CODE").IsRequired();
+
+        builder.Property(t => t.ApiKey).HasColumnName("API_KEY").IsRequired();
+
+        builder.Property(t => t.IsSysAdmin).HasColumnName("IS_SYS_ADMIN").IsRequired();
+
+        builder.HasMany(u => u.UserRoles)
+            .WithOne()
+            .HasForeignKey(ur => ur.UserId)
+            .IsRequired(false) // Allow UserRoles to be null
+            .HasConstraintName("FK_USER_USER_ROLE");
     }
 }
