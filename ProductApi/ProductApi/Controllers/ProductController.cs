@@ -1,4 +1,6 @@
-﻿namespace ProductApi.Controllers;
+﻿using Shared.Dtos.Products;
+
+namespace ProductApi.Controllers;
 
 [ApiController]
 [Route("[controller]")]

@@ -21,6 +21,14 @@ public class UserController : ControllerBase
         return CustomResponse(result);
     }
 
+    [HttpGet("GetUserRoles/{apiKey}")]
+    public async Task<IActionResult> GetUserRolesAsync(string apiKey)
+    {
+        var result = await _userService.GetUserRolesAsync(apiKey);
+
+        return CustomResponse(result);
+    }
+
     [HttpGet("Details/{id}")]
     public async Task<IActionResult> Details(int id)
     {

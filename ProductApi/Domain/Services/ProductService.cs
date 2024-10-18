@@ -1,4 +1,6 @@
-﻿namespace Domain.Services;
+﻿using Shared.Dtos.Products;
+
+namespace Domain.Services;
 
 public class ProductService : IProductService
 {

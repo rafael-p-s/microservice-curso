@@ -1,4 +1,6 @@
-﻿namespace Infrastructure.Context.Entities;
+﻿using Shared.Dtos.Products;
+
+namespace Infrastructure.Context.Entities;
 
 public class Product : BaseEntity
 {

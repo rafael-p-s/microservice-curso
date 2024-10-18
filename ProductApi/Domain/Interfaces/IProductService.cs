@@ -1,4 +1,6 @@
-﻿namespace Domain.Interfaces;
+﻿using Shared.Dtos.Products;
+
+namespace Domain.Interfaces;
 
 public interface IProductService
 {

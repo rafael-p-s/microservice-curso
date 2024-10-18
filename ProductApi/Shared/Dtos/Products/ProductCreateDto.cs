@@ -1,6 +1,6 @@
-﻿namespace Shared.Dtos;
+﻿namespace Shared.Dtos.Products;
 
-public class ProductDto : BaseDto
+public class ProductCreateDto
 {
     public string Name { get; set; }
     public string? Description { get; set; }

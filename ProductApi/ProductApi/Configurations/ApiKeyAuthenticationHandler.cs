@@ -1,14 +1,19 @@
-﻿namespace UserApi.Configurations;
+﻿using IntegrationService.Helpers;
+using IntegrationService.Interfaces;
+using Shared.Dtos.Users;
+
+namespace UserApi.Configurations;
 
 public class ApiKeyAuthenticationHandler(
     IOptionsMonitor<AuthenticationSchemeOptions> options,
     ILoggerFactory logger,
     UrlEncoder encoder,
-    IProductService userService)
+    IClientService clientService)
     : AuthenticationHandler<AuthenticationSchemeOptions>(options, logger, encoder)
 {
     private const string ApiKeyHeaderName = "X-API-KEY";
     private List<Claim>? claims;
+    private const string GET_BY_APIKEY_URL = "https://localhost:7140/User/GetUserRoles/";
 
     protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
     {
@@ -31,7 +36,13 @@ public class ApiKeyAuthenticationHandler(
             return null;
 
         claims = null;
-        User? user = await userService.GetUserRolesAsync(apiKey);
+        var url = string.Concat(GET_BY_APIKEY_URL, apiKey);
+        var responseDto = await clientService.GetAsync(apiKey);
+
+        if (!responseDto?.Status ?? true)
+            return null;
+
+        UserDto? user = JsonExtensions.DeserializeCustomResponse<UserDto>(responseDto!.Content!);
 
         if (user is not null)
         {
@@ -43,7 +54,7 @@ public class ApiKeyAuthenticationHandler(
             if (user.IsSysAdmin)
                 claims.Add(new Claim(ClaimTypes.Role, "ADMIN"));
 
-            foreach (UserRole userRole in user.UserRoles ?? [])
+            foreach (UserRoleDto userRole in user.UserRoles ?? [])
             {
                 claims.Add(new Claim(ClaimTypes.Role, userRole.Name));
             }
