@@ -13,17 +13,16 @@ public class ClientService : IClientService
         _notifierService = notifierService;
     }
 
-    private HttpClient CreateClientWithApiKey(string userApiKey)
+    private HttpClient CreateClientWithApiKey()
     {
-        var apikey = string.IsNullOrEmpty(userApiKey) ? ApiKey : userApiKey;
         var client = _httpClientFactory.CreateClient();
-        client.DefaultRequestHeaders.Add(ApiKeyHeaderName, apikey);
+        client.DefaultRequestHeaders.Add(ApiKeyHeaderName, ApiKey);
         return client;
     }
 
     public async Task<ResponseModel?> GetAsync(string requestUri)
     {
-        var client = CreateClientWithApiKey(string.Empty);
+        var client = CreateClientWithApiKey();
         ResponseModel? result;
         try
         {
@@ -43,9 +42,9 @@ public class ClientService : IClientService
         return result;
     }
 
-    public async Task<ResponseModel?> PostAsync<T>(string requestUri, string userApiKey, T content)
+    public async Task<ResponseModel?> PostAsync<T>(string requestUri, T content)
     {
-        var client = CreateClientWithApiKey(userApiKey);
+        var client = CreateClientWithApiKey();
         StringContent jsonContent = JsonExtensions.SerializeContent(content);
         ResponseModel? result;
         try
@@ -66,9 +65,9 @@ public class ClientService : IClientService
         return result;
     }
 
-    public async Task<ResponseModel?> PutAsync<T>(string requestUri, string userApiKey, T content)
+    public async Task<ResponseModel?> PutAsync<T>(string requestUri, T content)
     {
-        var client = CreateClientWithApiKey(userApiKey);
+        var client = CreateClientWithApiKey();
         StringContent jsonContent = JsonExtensions.SerializeContent(content);
         ResponseModel? result;
         try
@@ -89,9 +88,9 @@ public class ClientService : IClientService
         return result;
     }
 
-    public async Task<ResponseModel?> DeleteAsync(string requestUri, string userApiKey)
+    public async Task<ResponseModel?> DeleteAsync(string requestUri)
     {
-        var client = CreateClientWithApiKey(userApiKey);
+        var client = CreateClientWithApiKey();
         ResponseModel? result;
         try
         {

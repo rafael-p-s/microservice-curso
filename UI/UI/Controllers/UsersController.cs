@@ -79,9 +79,9 @@ public class UsersController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> DeleteUser(int id, string apiKey)
+    public async Task<IActionResult> DeleteUser(int id)
     {
-        var result = await _userService.DeleteUser(id, apiKey);
+        var result = await _userService.DeleteUser(id);
 
         IncludeMessages();
 

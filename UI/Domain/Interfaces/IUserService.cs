@@ -6,5 +6,5 @@ public interface IUserService
     Task<UserModel?> GetUserById(int id);
     Task<UserModel?> CreateUser(UserBaseModel userModel);
     Task<UserModel?> UpdateUser(UserModel userModel);
-    Task<bool> DeleteUser(int id, string apiKey);
+    Task<bool> DeleteUser(int id);
 }
