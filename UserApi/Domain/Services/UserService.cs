@@ -77,6 +77,13 @@ public class UserService : IUserService
             return false;
         }
 
+        if (getUser.ApiKey.Equals("f47ac10b58cc4372a5670e02b2c3d479"))
+        {
+            _notifierService.AddLog("Super User cannot deleted.");
+
+            return false;
+        }
+
         var result = await _userRepository.Delete(getUser);
 
         if (!result)

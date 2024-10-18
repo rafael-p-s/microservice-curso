@@ -12,7 +12,7 @@ public class Repository<T> : IRepository<T> where T : class
 
     public async Task<List<T>> GetAll()
     {
-        return await _context.Set<T>().ToListAsync();
+        return await _context.Set<T>().AsNoTracking().ToListAsync();
     }
 
     public async Task<T?> GetById(int id)
@@ -34,6 +34,10 @@ public class Repository<T> : IRepository<T> where T : class
         {
             return null;
         }
+        finally
+        {
+            _context.ChangeTracker.Clear();
+        }
     }
 
     public async Task<T?> Update(T entity)
@@ -50,6 +54,10 @@ public class Repository<T> : IRepository<T> where T : class
         {
             return null;
         }
+        finally
+        {
+            _context.ChangeTracker.Clear();
+        }
     }
 
     public async Task<bool> Delete(T entity)
@@ -64,7 +72,10 @@ public class Repository<T> : IRepository<T> where T : class
         {
             return false;
         }
-
+        finally
+        {
+            _context.ChangeTracker.Clear();
+        }
     }
 
     public void Dispose()

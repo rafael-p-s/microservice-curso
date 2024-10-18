@@ -1,6 +1,5 @@
 ﻿@model List<Shared.ViewModels.UserModel>
 @{
-    ViewData["Title"] = "Users page";
     var errorLogs = ViewData["ErrorLogs"] as string;
 }
 
@@ -25,8 +24,7 @@
                 <th>Name</th>
                 <th>Email</th>
                 <th>Age</th>
-                <th>Details</th>
-                <th>SysAdmin</th>
+                <th>Is Admin</th>
             </tr>
         </thead>
         <tbody>

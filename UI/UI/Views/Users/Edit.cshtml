@@ -2,6 +2,7 @@
 @{
     var errorLogs = ViewData["ErrorLogs"] as string;
 }
+
 <h2>Edit User</h2>
 <br />
 @if (!string.IsNullOrEmpty(errorLogs))
@@ -10,41 +11,42 @@
         @errorLogs
     </div>
 }
-<form method="post" action="@Url.Action("EditUser")">
-    <input type="hidden" name="Id" value="@Model.Id" />
+<form method="post" asp-action="EditUser">
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="ApiKey" />
     <div class="form-group">
-        <label for="Name">Name</label>
-        <input type="text" class="form-control" id="Name" name="Name" value="@Model.Name" required />
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" required />
     </div>
     <div class="form-group">
-        <label for="Age">Age</label>
-        <input type="number" class="form-control" id="Age" name="Age" value="@Model.Age" required />
+        <label asp-for="Age"></label>
+        <input asp-for="Age" class="form-control" type="number" required />
     </div>
     <div class="form-group">
-        <label for="Email">Email</label>
-        <input type="email" class="form-control" id="Email" name="Email" value="@Model.Email" required />
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" type="email" required />
     </div>
     <div class="form-group">
-        <label for="Address">Address</label>
-        <input type="text" class="form-control" id="Address" name="Address" value="@Model.Address" required />
+        <label asp-for="Address"></label>
+        <input asp-for="Address" class="form-control" required />
     </div>
     <div class="form-group">
-        <label for="City">City</label>
-        <input type="text" class="form-control" id="City" name="City" value="@Model.City" required />
+        <label asp-for="City"></label>
+        <input asp-for="City" class="form-control" required />
     </div>
     <div class="form-group">
-        <label for="Country">Country</label>
-        <input type="text" class="form-control" id="Country" name="Country" value="@Model.Country" required />
+        <label asp-for="Country"></label>
+        <input asp-for="Country" class="form-control" required />
     </div>
     <div class="form-group">
-        <label for="PostalCode">Postal Code</label>
-        <input type="text" class="form-control" id="PostalCode" name="PostalCode" value="@Model.PostalCode" required />
+        <label asp-for="PostalCode"></label>
+        <input asp-for="PostalCode" class="form-control" required />
     </div>
     <div class="form-group">
-        <label for="IsSysAdmin">Is System Admin</label>
-        <input type="checkbox" class="form-check-input" id="IsSysAdmin" name="IsSysAdmin" @(Model.IsSysAdmin ? "checked" : "") />
+        <label asp-for="IsSysAdmin"></label>
+        <input asp-for="IsSysAdmin" class="form-check-input" type="checkbox" />
     </div>
     <br />
     <button type="submit" class="btn btn-primary">Save</button>
-    <a href="@Url.Action("Index", "Users")" class="btn btn-secondary">Cancel</a>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
 </form>

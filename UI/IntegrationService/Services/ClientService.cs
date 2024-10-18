@@ -28,8 +28,11 @@ public class ClientService : IClientService
         try
         {
             var httpResponseMessage = await client.GetAsync(requestUri);
-            if (httpResponseMessage.StatusCode is not HttpStatusCode.OK and not HttpStatusCode.BadRequest)
-                return null;
+            var response = CheckStatusCodes(httpResponseMessage);
+
+            if (response is not null)
+                return response;
+
             result = await httpResponseMessage.DeserializeContent<ResponseModel>();
         }
         catch (Exception)
@@ -48,8 +51,11 @@ public class ClientService : IClientService
         try
         {
             var httpResponseMessage = await client.PostAsync(requestUri, jsonContent);
-            if (httpResponseMessage.StatusCode is not HttpStatusCode.OK and not HttpStatusCode.BadRequest)
-                return null;
+            var response = CheckStatusCodes(httpResponseMessage);
+
+            if (response is not null)
+                return response;
+
             result = await httpResponseMessage.DeserializeContent<ResponseModel>();
         }
         catch (Exception)
@@ -68,8 +74,11 @@ public class ClientService : IClientService
         try
         {
             var httpResponseMessage = await client.PutAsync(requestUri, jsonContent);
-            if (httpResponseMessage.StatusCode is not HttpStatusCode.OK and not HttpStatusCode.BadRequest)
-                return null;
+            var response = CheckStatusCodes(httpResponseMessage);
+
+            if (response is not null)
+                return response;
+
             result = await httpResponseMessage.DeserializeContent<ResponseModel>();
         }
         catch (Exception)
@@ -87,8 +96,11 @@ public class ClientService : IClientService
         try
         {
             var httpResponseMessage = await client.DeleteAsync(requestUri);
-            if (httpResponseMessage.StatusCode is not HttpStatusCode.OK and not HttpStatusCode.BadRequest)
-                return null;
+            var response = CheckStatusCodes(httpResponseMessage);
+
+            if (response is not null)
+                return response;
+
             result = await httpResponseMessage.DeserializeContent<ResponseModel>();
         }
         catch (Exception)
@@ -97,5 +109,17 @@ public class ClientService : IClientService
             return null;
         }
         return result;
+    }
+
+    private ResponseModel? CheckStatusCodes(HttpResponseMessage httpResponseMessage)
+    {
+        return (int)httpResponseMessage.StatusCode switch
+        {
+            400 => new ResponseModel(false, "BadRequest - 400: The request could not be understood by the server."),
+            403 => new ResponseModel(false, "Forbidden - 403: The user does not have the necessary permissions for the resource."),
+            404 => new ResponseModel(false, "NotFound - 404: The requested resource could not be found on the server."),
+            500 => new ResponseModel(false, "InternalServerError - 500: The server encountered an error and could not complete the request."),
+            _ => null
+        };
     }
 }

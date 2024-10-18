@@ -52,9 +52,9 @@ public class UserService : IUserService
         return JsonExtensions.DeserializeCustomResponse<UserModel>(result.Content!);
     }
 
-    public async Task<UserModel?> CreateUser(UserModel userModel)
+    public async Task<UserModel?> CreateUser(UserBaseModel userModel)
     {
-        var result = await _clientService.PostAsync(CREATE_USER_URL, userModel.ApiKey, userModel);
+        var result = await _clientService.PostAsync(CREATE_USER_URL, string.Empty, userModel);
 
         if (result is null)
             return new();
