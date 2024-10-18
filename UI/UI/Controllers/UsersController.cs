@@ -15,12 +15,7 @@ public class UsersController : Controller
     public async Task<IActionResult> Index()
     {
         var result = await _userService.GetAll();
-
-        if (_notifierService.HasMessages())
-        {
-            var logs = _notifierService.GetLog();
-            ViewData["ErrorLogs"] = logs;
-        }
+        IncludeMessages();
 
         return View("Index", result);
     }
@@ -30,11 +25,7 @@ public class UsersController : Controller
     {
         var result = await _userService.GetUserById(id);
 
-        if (_notifierService.HasMessages())
-        {
-            var logs = _notifierService.GetLog();
-            ViewData["ErrorLogs"] = logs;
-        }
+        IncludeMessages();
 
         return View("Details", result);
     }
@@ -42,12 +33,6 @@ public class UsersController : Controller
     [HttpGet]
     public ActionResult Create()
     {
-        if (_notifierService.HasMessages())
-        {
-            var logs = _notifierService.GetLog();
-            ViewData["ErrorLogs"] = logs;
-        }
-
         return View("Create");
     }
 
@@ -59,12 +44,6 @@ public class UsersController : Controller
 
         var result = await _userService.CreateUser(user);
 
-        if (_notifierService.HasMessages())
-        {
-            var logs = _notifierService.GetLog();
-            ViewData["ErrorLogs"] = logs;
-        }
-
         return await Index();
     }
 
@@ -73,11 +52,7 @@ public class UsersController : Controller
     {
         var result = await _userService.GetUserById(id);
 
-        if (_notifierService.HasMessages())
-        {
-            var logs = _notifierService.GetLog();
-            ViewData["ErrorLogs"] = logs;
-        }
+        IncludeMessages();
 
         return View("Edit", result);
     }
@@ -90,12 +65,6 @@ public class UsersController : Controller
 
         var result = await _userService.UpdateUser(user);
 
-        if (_notifierService.HasMessages())
-        {
-            var logs = _notifierService.GetLog();
-            ViewData["ErrorLogs"] = logs;
-        }
-
         return await Index();
     }
 
@@ -104,11 +73,7 @@ public class UsersController : Controller
     {
         var result = new UserModel() { Id = id, Name = name };
 
-        if (_notifierService.HasMessages())
-        {
-            var logs = _notifierService.GetLog();
-            ViewData["ErrorLogs"] = logs;
-        }
+        IncludeMessages();
 
         return View("Delete", result);
     }
@@ -118,11 +83,7 @@ public class UsersController : Controller
     {
         var result = await _userService.DeleteUser(id, apiKey);
 
-        if (_notifierService.HasMessages())
-        {
-            var logs = _notifierService.GetLog();
-            ViewData["ErrorLogs"] = logs;
-        }
+        IncludeMessages();
 
         return await Index();
     }
@@ -157,6 +118,17 @@ public class UsersController : Controller
             {
                 _notifierService.AddLog(error.ErrorMessage);
             }
+        }
+
+        IncludeMessages();
+    }
+
+    private void IncludeMessages()
+    {
+        if (_notifierService.HasMessages())
+        {
+            var logs = _notifierService.GetLog();
+            ViewData["ErrorLogs"] = logs;
         }
     }
 }

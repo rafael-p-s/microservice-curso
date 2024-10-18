@@ -115,7 +115,6 @@ public class ClientService : IClientService
     {
         return (int)httpResponseMessage.StatusCode switch
         {
-            400 => new ResponseModel(false, "BadRequest - 400: The request could not be understood by the server."),
             403 => new ResponseModel(false, "Forbidden - 403: The user does not have the necessary permissions for the resource."),
             404 => new ResponseModel(false, "NotFound - 404: The requested resource could not be found on the server."),
             500 => new ResponseModel(false, "InternalServerError - 500: The server encountered an error and could not complete the request."),
