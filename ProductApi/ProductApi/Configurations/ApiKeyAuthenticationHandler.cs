@@ -1,8 +1,4 @@
-﻿using IntegrationService.Helpers;
-using IntegrationService.Interfaces;
-using Shared.Dtos.Users;
-
-namespace UserApi.Configurations;
+﻿namespace ProductApi.Configurations;
 
 public class ApiKeyAuthenticationHandler(
     IOptionsMonitor<AuthenticationSchemeOptions> options,

@@ -42,6 +42,7 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddDbContext<ProductApiDbContext>(options =>
         options.UseSqlite(builder.Configuration.GetConnectionString("ProductDatabase")));
+builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<INotifierService, NotifierService>();
 builder.Services.AddTransient<IProductRepository, ProductRepository>();

@@ -1,4 +1,4 @@
-﻿namespace Shared.ViewModels;
+﻿namespace Shared.Dtos;
 
 public class ResponseDto
 {
