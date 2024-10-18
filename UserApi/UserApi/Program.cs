@@ -1,8 +1,20 @@
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = "ApiKey";
+    options.DefaultChallengeScheme = "ApiKey";
+})
+.AddScheme<AuthenticationSchemeOptions, ApiKeyAuthenticationHandler>("ApiKey", null);
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminPolicy", policy =>
+        policy.RequireClaim(ClaimTypes.Role, "Admin"));
+});
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-
 builder.Services.AddSwaggerGen(c =>
 {
     c.AddSecurityDefinition("ApiKey", new OpenApiSecurityScheme
@@ -32,7 +44,6 @@ builder.Services.AddDbContext<UserApiDbContext>(options =>
         options.UseSqlite(builder.Configuration.GetConnectionString("UserDatabase")));
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<INotifierService, NotifierService>();
-
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IUserRoleRepository, UserRoleRepository>();
 
@@ -45,13 +56,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthentication();
-
 app.UseAuthorization();
-
-app.UseMiddleware<ApiKeyMiddleware>();
-
 app.MapControllers();
-
 app.Run();
