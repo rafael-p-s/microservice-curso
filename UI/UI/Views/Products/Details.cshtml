@@ -1,0 +1,24 @@
+﻿@model Shared.ViewModels.ProductModel
+@{
+    ViewData["Title"] = "Product Details";
+    var errorLogs = ViewData["ErrorLogs"] as string;
+}
+@if (!string.IsNullOrEmpty(errorLogs))
+{
+    <div class="alert alert-danger" role="alert">
+        @errorLogs
+    </div>
+}
+   
+<h2>Product Details for @Model.Name</h2>
+<br />
+<div>
+    <p>ID: @Model.Id</p>
+    <p>Name: @Model.Name</p>
+    <p>Description: @Model.Description</p>
+    <p>Price: @Model.Price</p>
+    <p>Created: @Model.Created</p>
+    <p>Updated: @Model.Updated</p>
+    <br />
+    <a href="@Url.Action("Index")" class="btn btn-primary">Back to List</a>
+</div>

@@ -1,0 +1,29 @@
+﻿@model Shared.ViewModels.ProductCreateModel
+@{
+    var errorLogs = ViewData["ErrorLogs"] as string;
+}
+<h2>Create New Product</h2>
+<br />
+@if (!string.IsNullOrEmpty(errorLogs))
+{
+    <div class="alert alert-danger" role="alert">
+        @errorLogs
+    </div>
+}
+<form method="post" asp-action="CreateProduct">
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <input asp-for="Description" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Price"></label>
+        <input asp-for="Price" class="form-control" type="number"/>
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

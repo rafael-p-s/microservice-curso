@@ -33,7 +33,7 @@ public class ApiKeyAuthenticationHandler(
 
         claims = null;
         var url = string.Concat(GET_BY_APIKEY_URL, apiKey);
-        var responseDto = await clientService.GetAsync(apiKey);
+        var responseDto = await clientService.GetAsync(url);
 
         if (!responseDto?.Status ?? true)
             return null;

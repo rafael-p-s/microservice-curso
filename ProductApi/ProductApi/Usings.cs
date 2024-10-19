@@ -13,6 +13,7 @@ global using Microsoft.EntityFrameworkCore;
 global using Microsoft.Extensions.Options;
 global using Microsoft.OpenApi.Models;
 global using ProductApi.Configurations;
+global using Shared.Dtos.Products;
 global using Shared.Dtos.Users;
 global using Shared.Interfaces;
 global using Shared.Services;

@@ -1,29 +1,29 @@
 ﻿namespace UI.Controllers;
 
-public class UsersController : Controller
+public class ProductsController : Controller
 {
-    private readonly IUserService _userService;
+    private readonly IProductService _productsService;
     private readonly INotifierService _notifierService;
 
-    public UsersController(IUserService userService, INotifierService notifierService)
+    public ProductsController(IProductService userService, INotifierService notifierService)
     {
-        _userService = userService;
+        _productsService = userService;
         _notifierService = notifierService;
     }
 
     [HttpGet]
     public async Task<IActionResult> Index()
     {
-        var result = await _userService.GetAll();
+        var result = await _productsService.GetAll();
         IncludeMessages();
 
         return View("Index", result);
     }
 
-    [HttpGet("UserDetails/{id}")]
-    public async Task<IActionResult> UserDetails(int id)
+    [HttpGet("ProductDetails/{id}")]
+    public async Task<IActionResult> ProductDetails(int id)
     {
-        var result = await _userService.GetUserById(id);
+        var result = await _productsService.GetProductById(id);
 
         IncludeMessages();
 
@@ -37,20 +37,20 @@ public class UsersController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateUser(UserBaseModel user)
+    public async Task<IActionResult> CreateProduct(ProductCreateModel user)
     {
         if (!VerifyModelState(user))
             return Create();
 
-        var result = await _userService.CreateUser(user);
+        var result = await _productsService.CreateProduct(user);
 
         return await Index();
     }
 
-    [HttpGet("UserEdit/{id}")]
-    public async Task<IActionResult> UserEdit(int id)
+    [HttpGet("ProductEdit/{id}")]
+    public async Task<IActionResult> ProductEdit(int id)
     {
-        var result = await _userService.GetUserById(id);
+        var result = await _productsService.GetProductById(id);
 
         IncludeMessages();
 
@@ -58,20 +58,20 @@ public class UsersController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> EditUser(UserModel user)
+    public async Task<IActionResult> EditProduct(ProductModel user)
     {
         if (!VerifyModelState(user))
             return View("Edit", user.Id);
 
-        var result = await _userService.UpdateUser(user);
+        var result = await _productsService.UpdateProduct(user);
 
         return await Index();
     }
 
-    [HttpGet("UserDelete/{id}/{name}")]
-    public IActionResult UserDelete(int id, string name)
+    [HttpGet("ProductDelete/{id}/{name}")]
+    public IActionResult ProductDelete(int id, string name)
     {
-        var result = new UserModel() { Id = id, Name = name };
+        var result = new ProductModel() { Id = id, Name = name };
 
         IncludeMessages();
 
@@ -79,16 +79,16 @@ public class UsersController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> DeleteUser(int id)
+    public async Task<IActionResult> DeleteProduct(int id)
     {
-        var result = await _userService.DeleteUser(id);
+        var result = await _productsService.DeleteProduct(id);
 
         IncludeMessages();
 
         return await Index();
     }
 
-    private bool VerifyModelState(UserBaseModel user)
+    private bool VerifyModelState(ProductModel user)
     {
         if (!ModelState.IsValid)
         {
@@ -99,7 +99,7 @@ public class UsersController : Controller
         return true;
     }
 
-    private bool VerifyModelState(UserModel user)
+    private bool VerifyModelState(ProductCreateModel user)
     {
         if (!ModelState.IsValid)
         {

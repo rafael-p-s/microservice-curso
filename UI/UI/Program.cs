@@ -5,6 +5,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddHttpClient();
 
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddScoped<IWeatherService, WeatherService>();
 builder.Services.AddScoped<INotifierService, NotifierService>();

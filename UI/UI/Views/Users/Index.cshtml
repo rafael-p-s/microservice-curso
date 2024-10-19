@@ -37,9 +37,9 @@
                     <td>@user.Age</td>
                     <td>@user.IsSysAdmin</td>
                     <td>
-                        <a href="@Url.Action("Details", new { id = user.Id })" class="btn btn-info">Details</a>
-                        <a href="@Url.Action("Edit", new { id = user.Id })" class="btn btn-warning">Edit</a>
-                        <a href="@Url.Action("Delete", new { id = user.Id, name = user.Name })" class="btn btn-danger">Delete</a>
+                        <a href="@Url.Action("UserDetails", new { id = user.Id })" class="btn btn-info">Details</a>
+                        <a href="@Url.Action("UserEdit", new { id = user.Id })" class="btn btn-warning">Edit</a>
+                        <a href="@Url.Action("UserDelete", new { id = user.Id, name = user.Name })" class="btn btn-danger">Delete</a>
                     </td>
                 </tr>
             }

@@ -12,7 +12,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 
         builder.Property(t => t.Created).HasColumnName("CREATED").IsRequired();
 
-        builder.Property(t => t.Updated).HasColumnName("CREATED");
+        builder.Property(t => t.Updated).HasColumnName("UPDATED");
 
         builder.Property(t => t.Name).HasColumnName("NAME").IsRequired();
 

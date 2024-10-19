@@ -17,6 +17,7 @@ public class Product : BaseEntity
         Name = productDto.Name;
         Description = productDto.Description;
         Price = productDto.Price;
+        Updated = DateTime.Now;
     }
 
     public Product(ProductCreateDto productCreateDto)
