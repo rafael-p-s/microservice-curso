@@ -24,6 +24,7 @@ public class ClientService : IClientService
     {
         var client = CreateClientWithApiKey();
         ResponseDto? result;
+
         try
         {
             var httpResponseMessage = await client.GetAsync(requestUri);
@@ -39,6 +40,7 @@ public class ClientService : IClientService
             _notifierService.AddLog("Error to connect with backend app");
             return null;
         }
+
         return result;
     }
 
@@ -47,6 +49,7 @@ public class ClientService : IClientService
         var client = CreateClientWithApiKey();
         StringContent jsonContent = JsonExtensions.SerializeContent(content);
         ResponseDto? result;
+
         try
         {
             var httpResponseMessage = await client.PostAsync(requestUri, jsonContent);
@@ -62,6 +65,7 @@ public class ClientService : IClientService
             _notifierService.AddLog("Error to connect with backend app");
             return null;
         }
+
         return result;
     }
 
@@ -70,6 +74,7 @@ public class ClientService : IClientService
         var client = CreateClientWithApiKey();
         StringContent jsonContent = JsonExtensions.SerializeContent(content);
         ResponseDto? result;
+
         try
         {
             var httpResponseMessage = await client.PutAsync(requestUri, jsonContent);
@@ -85,6 +90,7 @@ public class ClientService : IClientService
             _notifierService.AddLog("Error to connect with backend app");
             return null;
         }
+
         return result;
     }
 
@@ -92,6 +98,7 @@ public class ClientService : IClientService
     {
         var client = CreateClientWithApiKey();
         ResponseDto? result;
+
         try
         {
             var httpResponseMessage = await client.DeleteAsync(requestUri);
