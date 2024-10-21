@@ -7,7 +7,7 @@ public class UserController : ControllerBase
     private readonly IUserService _userService;
     private readonly INotifierService _notifierService;
 
-    public UserController(IUserService userService, ILogger<UserController> logger, INotifierService notifierService)
+    public UserController(IUserService userService, INotifierService notifierService)
     {
         _userService = userService;
         _notifierService = notifierService;
@@ -67,8 +67,8 @@ public class UserController : ControllerBase
     private IActionResult CustomResponse(object? content)
     {
         if (_notifierService.HasMessages())
-            return BadRequest(new { Status = false, Content = _notifierService.GetLog() });
+            return BadRequest(new ResponseDto(false, _notifierService.GetLog()));
 
-        return Ok(new { Status = true, Content = content });
+        return Ok(new ResponseDto(true, content));
     }
 }

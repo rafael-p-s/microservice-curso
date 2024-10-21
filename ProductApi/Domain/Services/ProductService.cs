@@ -1,6 +1,4 @@
-﻿using Shared.Dtos.Products;
-
-namespace Domain.Services;
+﻿namespace Domain.Services;
 
 public class ProductService : IProductService
 {
@@ -22,6 +20,12 @@ public class ProductService : IProductService
 
     public async Task<ProductDto?> GetProductById(int id)
     {
+        if (id < 1)
+        {
+            _notifierService.AddLog("Invalid Id sent.");
+            return null;
+        }
+
         var result = await _productRepository.GetById(id);
 
         if (result is null)
