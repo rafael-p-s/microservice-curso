@@ -19,10 +19,15 @@ public class ProductRepositoryTest
     [Fact]
     public async Task Dispose_ReturnDisposeInstance_WhenDisposeIsCalledAsync()
     {
+        // Arrange
+        // no arrange needed for this test
+
+        // Act
         _productRepository.Dispose();
 
         var result = await Record.ExceptionAsync(_productRepository.GetAll);
 
+        // Assert
         result.Should().NotBeNull();
         result.Should().BeOfType<ObjectDisposedException>();
     }
@@ -31,10 +36,15 @@ public class ProductRepositoryTest
     [Fact]
     public void Dispose_ReturnDispose_WhenDisposeIsCalledTwice()
     {
+        // Arrange
+        // no arrange needed for this test
+
+        // Act
         _productRepository.Dispose();
 
         var result = _productRepository.Dispose;
 
+        // Assert
         result.Should().NotBeNull();
         result.Should().Throw<ObjectDisposedException>();
     }
