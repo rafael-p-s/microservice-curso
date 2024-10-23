@@ -10,3 +10,18 @@ Cloud Computing:
 - Provedores: AWS, Azure, Google Cloud.
 
 
+- Sonar Qube: is a tool that checks whether my code has any gaps and requires at least 70% code coverage from tests.
+Is possible to use a SCA
+
+- Dynatrace: is a tool to show a loot of informations.
+
+- JMeter>: is a tool to send requests to test my system.
+
+
+
+We will use:
+- Postman
+- GDT
+- DB Brower SQLite
+
+Fine Code Coverage
